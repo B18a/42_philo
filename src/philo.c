@@ -3,17 +3,13 @@
 #include "../include/philo.h"
 
 
-void *routine()
-{
-
-}
 
 
 void	get_forks(t_philo *philo, t_fork *forks)
 {
 	int nbr_of_philos;
 	
-	nbr_of_philos = philo->supervisor->nbr_of_philos;
+	nbr_of_philos = philo->butler->nbr_of_philos;
 	if(philo->id % 2)
 	{
 		philo->fork_first = &forks[philo->id - 1];
@@ -29,55 +25,55 @@ void	get_forks(t_philo *philo, t_fork *forks)
 
 
 
-int	prep_philos(t_supervisor *supervisor)
+int	prep_philos(t_butler *butler)
 {
 	int	pos;
 
 	pos = 0;
-	while(pos < supervisor->nbr_of_philos)
+	while(pos < butler->nbr_of_philos)
 	{
-		supervisor->philos[pos].id = pos + 1 ;
-		supervisor->philos[pos].meals_eaten = 0;
-		supervisor->philos[pos].done = 0;
-		//supervisor->philos[i].last_time_eaten = ?;
-		supervisor->philos[pos].supervisor = supervisor;
-		get_forks(&supervisor->philos[pos], supervisor->forks);
+		butler->philos[pos].id = pos + 1 ;
+		butler->philos[pos].meals_eaten = 0;
+		butler->philos[pos].done = 0;
+		//butler->philos[i].last_time_eaten = ?;
+		butler->philos[pos].butler = butler;
+		get_forks(&butler->philos[pos], butler->forks);
 		pos++;
 	}
 }
 
 
-int	prep_dinner(t_supervisor *supervisor)
+int	prep_dinner(t_butler *butler)
 {
 	int	i;
 
 	i = 0;
-	supervisor->end_of_dinner = 0;
-	supervisor->philos = (t_philo*)malloc(sizeof(t_philo) * supervisor->nbr_of_philos);
-	if(!supervisor->philos)
+	butler->end_of_dinner = 0;
+	butler->philos = (t_philo*)malloc(sizeof(t_philo) * butler->nbr_of_philos);
+	if(!butler->philos)
 		return(0);
-	supervisor->forks = (t_fork*)malloc(sizeof(t_fork) * supervisor->nbr_of_philos);
-	if(!supervisor->forks)
+	butler->forks = (t_fork*)malloc(sizeof(t_fork) * butler->nbr_of_philos);
+	if(!butler->forks)
 		return(0);
-	while(i < supervisor->nbr_of_philos)
+	while(i < butler->nbr_of_philos)
 	{
-		if(mutex_handler(&supervisor->forks[i].fork, INIT))
+		if(mutex_handler(&butler->forks[i].fork, INIT))
 		{
-			free_mem(supervisor);
+			free_mem(butler);
 			return(1);
 		}
-		supervisor->forks[i].fork_id = i; //only for debugging
+		butler->forks[i].fork_id = i; //only for debugging
 		i++;
 	}
-	prep_philos(supervisor);
+	prep_philos(butler);
 	return(0);
 }
 
 /*
-	//supervisor->philos = malloc(sizeof(pthread_t) * supervisor->nbr_of_philos);
-	while(i < supervisor->nbr_of_philos)
+	//butler->philos = malloc(sizeof(pthread_t) * butler->nbr_of_philos);
+	while(i < butler->nbr_of_philos)
 	{
-		if(pthread_create(&supervisor->philos[i], NULL, &routine, NULL) != 0)
+		if(pthread_create(&butler->philos[i], NULL, &routine, NULL) != 0)
 		{
 			printf("failed to create Philo[%i]\n",i);
 			return(0);
@@ -87,9 +83,9 @@ int	prep_dinner(t_supervisor *supervisor)
 	}
 	
 	i = 0;
-	while(i < supervisor->nbr_of_philos)
+	while(i < butler->nbr_of_philos)
 	{
-		pthread_join(supervisor->philos[i], NULL);
+		pthread_join(butler->philos[i], NULL);
 		printf("Philo[%i] finished\n",i);
 		i++;
 	}
@@ -102,14 +98,14 @@ int	prep_dinner(t_supervisor *supervisor)
 
 int main(int argc, char **argv)
 {
-	t_supervisor supervisor;
+	t_butler butler;
 
-	if(handle_input(argc, argv, &supervisor))
+	if(handle_input(argc, argv, &butler))
 		return(0);
-	if(prep_dinner(&supervisor) == 1)
+	if(prep_dinner(&butler) == 1)
 		return(0);
-	start_dinner(&supervisor);
-	free_mem(&supervisor);
+	start_dinner(&butler);
+	free_mem(&butler);
 	return(1);
 }
 

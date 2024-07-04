@@ -44,7 +44,7 @@ typedef enum	e_thread
 	DETACH,
 }			t_thread;
 
-typedef	struct s_supervisor t_supervisor;
+typedef	struct s_butler t_butler;
 typedef	struct s_fork t_fork;
 typedef	struct s_philo t_philo;
 
@@ -70,7 +70,7 @@ typedef struct	s_philo
 	int		done;
 	long	last_time_eaten;
 
-	t_supervisor	*supervisor;
+	t_butler	*butler;
 
 //	struct t_philo	*prev;
 //	struct t_philo	*next;
@@ -78,7 +78,7 @@ typedef struct	s_philo
 //	int	is_alive;
 }		t_philo;
 
-typedef struct	s_supervisor
+typedef struct	s_butler
 {
 	int		nbr_of_philos;
 	int		tt_die;
@@ -90,17 +90,17 @@ typedef struct	s_supervisor
 	t_philo		*philos;
 	t_fork		*forks;
 
-}				t_supervisor;
+}				t_butler;
 
 //ft_free
-void	free_mem(t_supervisor *supervisor);
+void	free_mem(t_butler *butler);
 
 //handle_input
 int		check_argument(char *str);
 int		check_input(int argc, char **argv);
-void	assign_values(int argc, char **argv, t_supervisor *supervisor);
-int		validate_values(int argc, char **argv, t_supervisor *supervisor);
-int		handle_input(int argc, char **argv, t_supervisor *supervisor);
+void	assign_values(int argc, char **argv, t_butler *butler);
+int		validate_values(int argc, char **argv, t_butler *butler);
+int		handle_input(int argc, char **argv, t_butler *butler);
 
 
 //libft
@@ -113,7 +113,7 @@ int		mutex_handler(pthread_mutex_t *mutex, t_mutex code);
 int		thread_handler(pthread_t *thread, void *(*foo)(void *), void *data, t_thread code);
 
 //dinner
-void	start_dinner(t_supervisor *supervisor);
+void	start_dinner(t_butler *butler);
 
 
 #endif
