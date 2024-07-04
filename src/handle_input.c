@@ -36,7 +36,6 @@ void	assign_values(int argc, char **argv, t_supervisor *supervisor)
 {
 	if(supervisor)
 	{
-		supervisor->philos = NULL;
 		supervisor->nbr_of_philos = ft_atoi(argv[1]);
 		supervisor->tt_die = ft_atoi(argv[2]);
 		supervisor->tt_eat = ft_atoi(argv[3]);
@@ -45,6 +44,10 @@ void	assign_values(int argc, char **argv, t_supervisor *supervisor)
 			supervisor->meals_to_eat = ft_atoi(argv[5]);
 		else 
 			supervisor->meals_to_eat = -1;
+		supervisor->start_time = 0;
+		supervisor->end_of_dinner = FALSE;
+		supervisor->philos = NULL;
+		supervisor->forks= NULL;
 	}
 }
 

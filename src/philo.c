@@ -9,10 +9,21 @@ void *routine()
 }
 
 
-void	get_forks(t_philo *philo, t_fork *forks, int pos)
+void	get_forks(t_philo *philo, t_fork *forks)
 {
-	philo->fork_right = &forks[pos];
-	philo->fork_left = &forks[(philo->id + 1) % philo->supervisor->nbr_of_philos];
+	int nbr_of_philos;
+	
+	nbr_of_philos = philo->supervisor->nbr_of_philos;
+	if(philo->id % 2)
+	{
+		philo->fork_first = &forks[philo->id - 1];
+		philo->fork_second = &forks[philo->id % nbr_of_philos];
+	}
+	else
+	{
+		philo->fork_first = &forks[philo->id % nbr_of_philos];
+		philo->fork_second = &forks[philo->id - 1];
+	}
 }
 
 
@@ -30,7 +41,7 @@ int	prep_philos(t_supervisor *supervisor)
 		supervisor->philos[pos].done = 0;
 		//supervisor->philos[i].last_time_eaten = ?;
 		supervisor->philos[pos].supervisor = supervisor;
-		get_forks(&supervisor->philos[pos], supervisor->forks, pos);
+		get_forks(&supervisor->philos[pos], supervisor->forks);
 		pos++;
 	}
 }
@@ -50,11 +61,16 @@ int	prep_dinner(t_supervisor *supervisor)
 		return(0);
 	while(i < supervisor->nbr_of_philos)
 	{
-		mutex_handler(&supervisor->forks[i].fork, INIT);
+		if(mutex_handler(&supervisor->forks[i].fork, INIT))
+		{
+			free_mem(supervisor);
+			return(1);
+		}
 		supervisor->forks[i].fork_id = i; //only for debugging
 		i++;
 	}
-	
+	prep_philos(supervisor);
+	return(0);
 }
 
 /*
@@ -87,21 +103,12 @@ int	prep_dinner(t_supervisor *supervisor)
 int main(int argc, char **argv)
 {
 	t_supervisor supervisor;
-	/*
-	t_supervisor *supervisor;
-
-	supervisor = (t_supervisor*)malloc(sizeof(t_supervisor) * 1);
-	if(supervisor == NULL)
-	{
-		printf("alloc failed\n");
-		return(0);
-	}
-	*/
 
 	if(handle_input(argc, argv, &supervisor))
 		return(0);
 	if(prep_dinner(&supervisor) == 1)
-		//start eating
+		return(0);
+	start_dinner(&supervisor);
 	free_mem(&supervisor);
 	return(1);
 }

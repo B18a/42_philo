@@ -25,6 +25,10 @@
 # define C	"\033[1;36m"
 # define W	"\033[1;37m"
 
+
+# define TRUE 1
+# define FALSE 0
+
 typedef enum	e_mutex
 {
 	LOCK,
@@ -58,8 +62,8 @@ typedef struct	s_philo
 {
 	pthread_t	philo;
 	
-	t_fork	*fork_left;
-	t_fork	*fork_right;
+	t_fork	*fork_first;
+	t_fork	*fork_second;
 	
 	int		id;
 	int		meals_eaten;
@@ -105,8 +109,11 @@ int		ft_atoi(const char *str);
 
 
 //handler
-void	mutex_handler(pthread_mutex_t *mutex, t_mutex code);
-void	thread_handler(pthread_t *thread, void *(*foo)(void *), void *data, t_thread code);
+int		mutex_handler(pthread_mutex_t *mutex, t_mutex code);
+int		thread_handler(pthread_t *thread, void *(*foo)(void *), void *data, t_thread code);
+
+//dinner
+void	start_dinner(t_supervisor *supervisor);
 
 
 #endif

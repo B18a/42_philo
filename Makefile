@@ -29,6 +29,7 @@ FUNCTIONS	=	$(SRC_DIR)/philo.c \
 				$(SRC_DIR)/handle_input.c \
 				$(SRC_DIR)/ft_free.c \
 				$(SRC_DIR)/handler.c \
+				$(SRC_DIR)/dinner.c \
 
 
 # INTERNAL OBJECT
