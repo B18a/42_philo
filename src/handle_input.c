@@ -46,6 +46,7 @@ void	assign_values(int argc, char **argv, t_butler *butler)
 			butler->meals_to_eat = -1;
 		butler->start_time = 0;
 		butler->end_of_dinner = FALSE;
+		butler->all_philos_ready_to_eat = FALSE;
 		butler->philos = NULL;
 		butler->forks= NULL;
 	}
@@ -70,14 +71,12 @@ int handle_input(int argc, char **argv, t_butler *butler)
 {
 	if(check_input(argc, argv))
 	{
-		//free_mem(butler);
 		printf("Invalid Input\n");
 		return(1);
 	}
 	assign_values(argc, argv, butler);
 	if(validate_values(argc, argv, butler))
 	{
-		//free_mem(butler);
 		printf("Invalid Values\n");
 		return(1);
 	}

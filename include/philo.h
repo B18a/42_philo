@@ -44,6 +44,16 @@ typedef enum	e_thread
 	DETACH,
 }			t_thread;
 
+typedef enum	e_time
+{
+	SECOND,
+	MILLISECOND,
+	MICROSECOND,
+}			t_time;
+
+
+
+
 typedef	struct s_butler t_butler;
 typedef	struct s_fork t_fork;
 typedef	struct s_philo t_philo;
@@ -51,7 +61,7 @@ typedef	struct s_philo t_philo;
 
 typedef	struct s_fork
 {
-	pthread_mutex_t	fork;
+	pthread_mutex_t	fork_mtx;
 	int				fork_id;
 	//pthread_mutex_t	*left_fork;
 	//pthread_mutex_t	right_fork;
@@ -60,7 +70,8 @@ typedef	struct s_fork
 
 typedef struct	s_philo
 {
-	pthread_t	philo;
+	pthread_t	thread;
+	pthread_mutex_t	philo_mtx;
 	
 	t_fork	*fork_first;
 	t_fork	*fork_second;
@@ -72,23 +83,22 @@ typedef struct	s_philo
 
 	t_butler	*butler;
 
-//	struct t_philo	*prev;
-//	struct t_philo	*next;
-
 //	int	is_alive;
 }		t_philo;
 
 typedef struct	s_butler
 {
-	int		nbr_of_philos;
-	int		tt_die;
-	int		tt_eat;
-	int		tt_sleep;
-	int		meals_to_eat;
-	long	start_time;
-	int		end_of_dinner;
-	t_philo		*philos;
-	t_fork		*forks;
+	int				nbr_of_philos;
+	int				tt_die;
+	int				tt_eat;
+	int				tt_sleep;
+	int				meals_to_eat;
+	long			start_time;
+	int				end_of_dinner;
+	int				all_philos_ready_to_eat;
+	pthread_mutex_t	ready_mtx;
+	t_philo			*philos;
+	t_fork			*forks;
 
 }				t_butler;
 
@@ -113,7 +123,14 @@ int		mutex_handler(pthread_mutex_t *mutex, t_mutex code);
 int		thread_handler(pthread_t *thread, void *(*foo)(void *), void *data, t_thread code);
 
 //dinner
-void	start_dinner(t_butler *butler);
+void	greeting_philos(t_butler *butler);
 
+void	set_value(pthread_mutex_t *mutex,int *dst ,int value);
+int		get_value(pthread_mutex_t *mutex,int *dst);
+int		dining_finished(t_butler *butler);
+
+
+long	get_time_in_ms(void);
+void	better_usleep(t_butler *butler, long time_in_ms);
 
 #endif

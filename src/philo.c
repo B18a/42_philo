@@ -32,10 +32,13 @@ int	prep_philos(t_butler *butler)
 	pos = 0;
 	while(pos < butler->nbr_of_philos)
 	{
+	if(mutex_handler(&butler->philos[pos].philo_mtx, INIT))
+		return(1);
+//return Value?
 		butler->philos[pos].id = pos + 1 ;
 		butler->philos[pos].meals_eaten = 0;
 		butler->philos[pos].done = 0;
-		//butler->philos[i].last_time_eaten = ?;
+		//butler->philos[pos].last_time_eaten = 0;
 		butler->philos[pos].butler = butler;
 		get_forks(&butler->philos[pos], butler->forks);
 		pos++;
@@ -48,7 +51,9 @@ int	prep_dinner(t_butler *butler)
 	int	i;
 
 	i = 0;
-	butler->end_of_dinner = 0;
+	butler->end_of_dinner = FALSE;
+	if(mutex_handler(&butler->ready_mtx, INIT))
+		return(1);
 	butler->philos = (t_philo*)malloc(sizeof(t_philo) * butler->nbr_of_philos);
 	if(!butler->philos)
 		return(0);
@@ -57,7 +62,7 @@ int	prep_dinner(t_butler *butler)
 		return(0);
 	while(i < butler->nbr_of_philos)
 	{
-		if(mutex_handler(&butler->forks[i].fork, INIT))
+		if(mutex_handler(&butler->forks[i].fork_mtx, INIT))
 		{
 			free_mem(butler);
 			return(1);
@@ -104,7 +109,7 @@ int main(int argc, char **argv)
 		return(0);
 	if(prep_dinner(&butler) == 1)
 		return(0);
-	start_dinner(&butler);
+	greeting_philos(&butler);
 	free_mem(&butler);
 	return(1);
 }
