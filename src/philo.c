@@ -10,7 +10,7 @@ void	get_forks(t_philo *philo, t_fork *forks)
 	int nbr_of_philos;
 	
 	nbr_of_philos = philo->butler->nbr_of_philos;
-	if(philo->id % 2)
+	if(philo->id % 2 == 0)
 	{
 		philo->fork_first = &forks[philo->id - 1];
 		philo->fork_second = &forks[philo->id % nbr_of_philos];
@@ -32,8 +32,8 @@ int	prep_philos(t_butler *butler)
 	pos = 0;
 	while(pos < butler->nbr_of_philos)
 	{
-	if(mutex_handler(&butler->philos[pos].philo_mtx, INIT))
-		return(1);
+		if(mutex_handler(&butler->philos[pos].philo_mtx, INIT))
+			return(1);
 //return Value?
 		butler->philos[pos].id = pos + 1 ;
 		butler->philos[pos].meals_eaten = 0;
@@ -54,7 +54,7 @@ int	prep_dinner(t_butler *butler)
 	butler->end_of_dinner = FALSE;
 	if(mutex_handler(&butler->ready_mtx, INIT))
 		return(1);
-	if(mutex_handler(&butler->butler_mtx, INIT))
+	if(mutex_handler(&butler->ready_mtx, INIT))
 		return(1);
 	butler->philos = (t_philo*)malloc(sizeof(t_philo) * butler->nbr_of_philos);
 	if(!butler->philos)

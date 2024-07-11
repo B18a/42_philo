@@ -13,11 +13,8 @@
 #ifndef PHILO_H
  #define PHILO_H
 
-
-
-
 # define RST	"\033[0m"
-# define R	"\033[1;31m"
+# define RED	"\033[1;31m"
 # define G	"\033[1;32m"
 # define Y	"\033[1;33m"
 # define B	"\033[1;34m"
@@ -28,6 +25,8 @@
 
 # define TRUE 1
 # define FALSE 0
+
+# define DEBUG 1
 
 typedef enum	e_status
 {
@@ -73,8 +72,6 @@ typedef	struct s_fork
 {
 	pthread_mutex_t	fork_mtx;
 	int				fork_id;
-	//pthread_mutex_t	*left_fork;
-	//pthread_mutex_t	right_fork;
 }			t_fork;
 
 
@@ -106,6 +103,7 @@ typedef struct	s_butler
 	long			start_time;
 	int				end_of_dinner;
 	int				all_philos_ready_to_eat;
+	pthread_t		supervisor;
 	pthread_mutex_t	ready_mtx;
 	pthread_mutex_t	butler_mtx;
 	t_philo			*philos;
@@ -149,6 +147,7 @@ void	better_usleep(t_butler *butler, long time_in_ms);
 void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 void	philo_think(t_philo *philo);
+int		philo_died(t_philo *philo);
 
 void	print_status(t_butler *butler,t_philo *philo, t_status code);
 

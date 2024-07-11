@@ -37,9 +37,9 @@ void	assign_values(int argc, char **argv, t_butler *butler)
 	if(butler)
 	{
 		butler->nbr_of_philos = ft_atoi(argv[1]);
-		butler->tt_die = ft_atoi(argv[2]);
-		butler->tt_eat = ft_atoi(argv[3]);
-		butler->tt_sleep = ft_atoi(argv[4]);
+		butler->tt_die = ft_atoi(argv[2]) * 1000;
+		butler->tt_eat = ft_atoi(argv[3]) * 1000;
+		butler->tt_sleep = ft_atoi(argv[4]) * 1000;
 		if(argc == 6)
 			butler->meals_to_eat = ft_atoi(argv[5]);
 		else 
@@ -56,11 +56,11 @@ int	validate_values(int argc, char **argv, t_butler *butler)
 {
 	if(butler->nbr_of_philos < 0 || butler->nbr_of_philos > 200)
 		return(1);
-	if(butler->tt_die < 60 || butler->tt_die > INT_MAX)
+	if(butler->tt_die < 60 * 1000 || butler->tt_die > INT_MAX)
 		return(1);
-	if(butler->tt_eat < 60 || butler->tt_eat > INT_MAX)
+	if(butler->tt_eat < 60 * 1000 || butler->tt_eat > INT_MAX)
 		return(1);
-	if(butler->tt_sleep < 60 || butler->tt_sleep > INT_MAX)
+	if(butler->tt_sleep < 60 * 1000 || butler->tt_sleep > INT_MAX)
 		return(1);
 	if(argc == 6 && butler->meals_to_eat <= 0)
 		return(1);
