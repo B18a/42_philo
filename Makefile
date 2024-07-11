@@ -33,6 +33,7 @@ FUNCTIONS	=	$(SRC_DIR)/philo.c \
 				$(SRC_DIR)/set_and_get.c \
 				$(SRC_DIR)/time.c \
 				$(SRC_DIR)/dinner_actions.c \
+				$(SRC_DIR)/ft_print_status.c \
 
 
 # INTERNAL OBJECT

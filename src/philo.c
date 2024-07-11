@@ -54,6 +54,8 @@ int	prep_dinner(t_butler *butler)
 	butler->end_of_dinner = FALSE;
 	if(mutex_handler(&butler->ready_mtx, INIT))
 		return(1);
+	if(mutex_handler(&butler->butler_mtx, INIT))
+		return(1);
 	butler->philos = (t_philo*)malloc(sizeof(t_philo) * butler->nbr_of_philos);
 	if(!butler->philos)
 		return(0);

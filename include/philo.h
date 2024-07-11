@@ -29,6 +29,16 @@
 # define TRUE 1
 # define FALSE 0
 
+typedef enum	e_status
+{
+	TOOK_FIRST_FORK,
+	TOOK_SEC_FORK,
+	EAT,
+	SLEEP,
+	THINK,
+	DIED,
+}			t_status;
+
 typedef enum	e_mutex
 {
 	LOCK,
@@ -70,7 +80,7 @@ typedef	struct s_fork
 
 typedef struct	s_philo
 {
-	pthread_t	thread;
+	pthread_t		thread;
 	pthread_mutex_t	philo_mtx;
 	
 	t_fork	*fork_first;
@@ -89,17 +99,17 @@ typedef struct	s_philo
 typedef struct	s_butler
 {
 	int				nbr_of_philos;
-	int				tt_die;
-	int				tt_eat;
-	int				tt_sleep;
+	long			tt_die;
+	long			tt_eat;
+	long			tt_sleep;
 	int				meals_to_eat;
 	long			start_time;
 	int				end_of_dinner;
 	int				all_philos_ready_to_eat;
 	pthread_mutex_t	ready_mtx;
+	pthread_mutex_t	butler_mtx;
 	t_philo			*philos;
 	t_fork			*forks;
-
 }				t_butler;
 
 //ft_free
@@ -125,12 +135,22 @@ int		thread_handler(pthread_t *thread, void *(*foo)(void *), void *data, t_threa
 //dinner
 void	greeting_philos(t_butler *butler);
 
-void	set_value(pthread_mutex_t *mutex,int *dst ,int value);
-int		get_value(pthread_mutex_t *mutex,int *dst);
+void	set_value_long(pthread_mutex_t *mutex,long *dst ,long value);
+long	get_value_long(pthread_mutex_t *mutex,long *dst);
+void	set_value_int(pthread_mutex_t *mutex,int *dst ,int value);
+int		get_value_int(pthread_mutex_t *mutex,int *dst);
 int		dining_finished(t_butler *butler);
 
 
 long	get_time_in_ms(void);
 void	better_usleep(t_butler *butler, long time_in_ms);
+
+
+void	philo_eat(t_philo *philo);
+void	philo_sleep(t_philo *philo);
+void	philo_think(t_philo *philo);
+
+void	print_status(t_butler *butler,t_philo *philo, t_status code);
+
 
 #endif

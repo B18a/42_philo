@@ -17,7 +17,7 @@ void	better_usleep(t_butler *butler, long time_in_ms)
 {
 	struct	timeval current;
 	struct	timeval start_sleep;
-	long	elapsed;	
+	long	time_gone;	
 
 	if(dining_finished(butler))	
 		return;
@@ -27,8 +27,8 @@ void	better_usleep(t_butler *butler, long time_in_ms)
 	while(1)
 	{
 		gettimeofday(&current, NULL);
-		elapsed = (current.tv_sec - start_sleep.tv_sec) * 1000000 + (current.tv_usec - start_sleep.tv_usec);
-		if(elapsed >= time_in_ms)
+		time_gone = (current.tv_sec - start_sleep.tv_sec) * 1000000 + (current.tv_usec - start_sleep.tv_usec);
+		if(time_gone >= time_in_ms)
 			break;
 		usleep(1);
 	}

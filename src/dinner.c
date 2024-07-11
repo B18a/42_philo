@@ -5,7 +5,7 @@ void	wait_for_all_philos(t_butler *butler)
 {
 	while(1)
 	{
-		if(get_value(&butler->ready_mtx, &butler->all_philos_ready_to_eat))
+		if(get_value_int(&butler->ready_mtx, &butler->all_philos_ready_to_eat))
 			break;
 	}
 }
@@ -26,6 +26,7 @@ void *dining(void *arg)
 		if(philo->done)
 			break;
 		// eat
+		philo_eat(philo);
 		// sleep
 		// think
 
@@ -61,7 +62,7 @@ void	greeting_philos(t_butler *butler)
 
 
 		//all philos are ready to eat
-		set_value(&butler->ready_mtx, &butler->all_philos_ready_to_eat, TRUE);
+		set_value_int(&butler->ready_mtx, &butler->all_philos_ready_to_eat, TRUE);
 
 		//dining
 		i = 0;
