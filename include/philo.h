@@ -151,6 +151,8 @@ int		philo_died(t_philo *philo);
 
 void	print_status(t_table *table,t_philo *philo, t_status code);
 
+//butler
+
 void	*butler_handling(void *arg);
 
 #endif

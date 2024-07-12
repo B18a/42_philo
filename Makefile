@@ -34,6 +34,7 @@ FUNCTIONS	=	$(SRC_DIR)/philo.c \
 				$(SRC_DIR)/time.c \
 				$(SRC_DIR)/dinner_actions.c \
 				$(SRC_DIR)/ft_print_status.c \
+				$(SRC_DIR)/butler.c \
 
 
 # INTERNAL OBJECT
