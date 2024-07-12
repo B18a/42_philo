@@ -5,10 +5,13 @@
 void *butler_handling(void *arg)
 {
 	t_table	*table;
-	int			pos;
+	int		pos;
 
 	table = (t_table*)arg;
 	// all threads must run
+
+	while(!get_value_int(&table->all_philos_ready_to_eat_mtx, &table->all_philos_ready_to_eat))
+		;
 
 	while (!dinner_finished(table))
 	{

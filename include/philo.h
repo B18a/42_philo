@@ -155,4 +155,10 @@ void	print_status(t_table *table,t_philo *philo, t_status code);
 
 void	*butler_handling(void *arg);
 
+//prep_dinner
+void	get_forks(t_philo *philo, t_fork *forks);
+int	prep_philos(t_table *table);
+int	prep_dinner(t_table *table);
+
+
 #endif

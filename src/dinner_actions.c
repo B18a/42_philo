@@ -33,16 +33,19 @@ void	philo_think(t_philo *philo)
 int	philo_died(t_philo *philo)
 {
 	long	actual_time;
-	long	left_to_die;
+	long	last_meal_time;
 
-	if(get_value_int(&philo->philo_mtx, &philo->done));
-		return(0);
+//Philo Full oder continue eating???
+//	if(get_value_int(&philo->philo_mtx, &philo->done));
+//		return(0);
 	actual_time = get_time_in_millis();
-	left_to_die = get_value_long(&philo->philo_mtx, &philo->last_time_eaten);
-	if((actual_time - left_to_die) > philo->table->tt_die)
+	last_meal_time = get_value_long(&philo->philo_mtx, &philo->last_time_eaten);
+//	if(last_meal_time + philo->table->tt_die > actual_time)
+	if((get_time_in_millis() - get_value_long(&philo->philo_mtx, &philo->last_time_eaten)) > philo->table->tt_die)
 	{
 		print_status(philo->table, philo, DIED);
 		return(1);
 	}
+	printf("DID NOT DIE\n");
 	return(0);
 }

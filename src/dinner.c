@@ -18,6 +18,8 @@ void *dining(void *arg)
 
 	philo = (t_philo*)arg;
 	wait_for_all_philos(philo->table);
+	set_value_long(&philo->philo_mtx, &philo->last_time_eaten, get_time_in_millis());
+
 	while(!dinner_finished(philo->table))
 	{
 //			if(get_value_int(&philo->philo_mtx, &philo->done));
@@ -53,13 +55,14 @@ void	greeting_philos(t_table *table)
 			printf("Philo[%i] created\n",i + 1); // Needed?
 			i++;
 		}
-		//butler
-		pthread_create(&table->butler, NULL, &butler_handling, &table);
 
 		//get the time
 		table->start_time = get_time_in_millis();
 		//all philos are ready to eat
 		set_value_int(&table->all_philos_ready_to_eat_mtx, &table->all_philos_ready_to_eat, TRUE);
+		
+		//butler
+		pthread_create(&table->butler, NULL, &butler_handling, &table);
 
 		//dining
 		i = 0;

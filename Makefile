@@ -24,7 +24,8 @@ vpath %.c $(SRC_DIR)
 vpath %.h $(INC_DIR)
 
 # INTERNAL FUNCTIONS
-FUNCTIONS	=	$(SRC_DIR)/philo.c \
+FUNCTIONS	=	$(SRC_DIR)/main.c \
+				$(SRC_DIR)/prep_dinner.c \
 				$(SRC_DIR)/libft.c \
 				$(SRC_DIR)/handle_input.c \
 				$(SRC_DIR)/ft_free.c \
