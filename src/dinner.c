@@ -18,8 +18,9 @@ void *dining(void *arg)
 
 	philo = (t_philo*)arg;
 	wait_for_all_philos(philo->table);
-	while(!dining_finished(philo->table))
+	while(!dinner_finished(philo->table))
 	{
+//			if(get_value_int(&philo->philo_mtx, &philo->done));
 		if(philo->done)
 			break;
 		philo_eat(philo);
@@ -39,10 +40,10 @@ void *butler_handling(void *arg)
 	table = (t_table*)arg;
 	// all threads must run
 
-	while (!dining_finished(table))
+	while (!dinner_finished(table))
 	{
 		pos = 0;
-		while (pos < table->nbr_of_philos && !dining_finished(table))
+		while (pos < table->nbr_of_philos && !dinner_finished(table))
 		{
 			if(philo_died(&table->philos[pos]))
 			{

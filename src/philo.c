@@ -86,7 +86,7 @@ int main(int argc, char **argv)
 	if(prep_dinner(&table) == 1)
 		return(0);
 	greeting_philos(&table);
-	free_mem(&table);
+//	free_mem(&table);
 	return(1);
 }
 

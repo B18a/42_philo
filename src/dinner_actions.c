@@ -12,7 +12,7 @@ void	philo_eat(t_philo *philo)
 	philo->meals_eaten++;
 	print_status(philo->table, philo, EAT);
 	better_usleep(philo->table, philo->table->tt_eat);
-	if( philo->table->meals_to_eat > 0 && philo->meals_eaten == philo->table->meals_to_eat)
+	if(philo->table->meals_to_eat > 0 && philo->meals_eaten == philo->table->meals_to_eat)
 		set_value_int(&philo->philo_mtx, &philo->done, TRUE);
 	mutex_handler(&philo->fork_first->fork_mtx, UNLOCK);
 	mutex_handler(&philo->fork_second->fork_mtx, UNLOCK);

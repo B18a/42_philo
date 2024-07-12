@@ -38,7 +38,7 @@ int	get_value_int(pthread_mutex_t *mutex,int *dst)
 	return(value);
 }
 
-int	dining_finished(t_table *table)
+int	dinner_finished(t_table *table)
 {
 	return(get_value_int(&table->end_of_dinner_mtx, &table->end_of_dinner));
 }

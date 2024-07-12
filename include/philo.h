@@ -22,7 +22,6 @@
 # define C	"\033[1;36m"
 # define W	"\033[1;37m"
 
-
 # define TRUE 1
 # define FALSE 0
 
@@ -61,8 +60,6 @@ typedef enum	e_time
 }			t_time;
 
 
-
-
 typedef	struct s_table t_table;
 typedef	struct s_fork t_fork;
 typedef	struct s_philo t_philo;
@@ -99,8 +96,8 @@ typedef struct	s_table
 	long			tt_die;
 	long			tt_eat;
 	long			tt_sleep;
-	int				meals_to_eat;
 	long			start_time;
+	int				meals_to_eat;
 	int				end_of_dinner;
 	pthread_mutex_t	end_of_dinner_mtx;
 	int				all_philos_ready_to_eat;
@@ -109,6 +106,8 @@ typedef struct	s_table
 	t_philo			*philos;
 	t_fork			*forks;
 }				t_table;
+
+//[nbr_of_philos][tt_die][tt_eat][tt_sleep ][meals_to_eat]
 
 //ft_free
 void	free_mem(t_table *table);
@@ -137,7 +136,7 @@ void	set_value_long(pthread_mutex_t *mutex,long *dst ,long value);
 long	get_value_long(pthread_mutex_t *mutex,long *dst);
 void	set_value_int(pthread_mutex_t *mutex,int *dst ,int value);
 int		get_value_int(pthread_mutex_t *mutex,int *dst);
-int		dining_finished(t_table *table);
+int		dinner_finished(t_table *table);
 
 
 long	get_time_in_millis(void);

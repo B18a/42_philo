@@ -29,18 +29,16 @@ long	get_time_in_micros(void)
 	return((time.tv_sec * 1000000) + time.tv_usec); 
 }
 
-
-void	better_usleep(long time_in_micros)
+void	better_usleep(t_table *table, long time_in_micros)
 {
 	long	start;	
 	long	current;	
 	long	time_gone;	
 
-	start = 0;
 	current = 0;
 	time_gone = 0;
 	start = get_time_in_micros();
-	while(1)
+	while(!dinner_finished(table))
 	{
 		current = get_time_in_micros();
 		time_gone = current - start;
