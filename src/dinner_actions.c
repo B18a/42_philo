@@ -8,7 +8,7 @@ void	philo_eat(t_philo *philo)
 	mutex_handler(&philo->fork_second->fork_mtx, LOCK);
 	print_status(philo->table, philo, TOOK_SEC_FORK);
 
-	set_value_long(&philo->philo_mtx, &philo->last_time_eaten, get_time_in_ms());
+	set_value_long(&philo->philo_mtx, &philo->last_time_eaten, get_time_in_millis());
 	philo->meals_eaten++;
 	print_status(philo->table, philo, EAT);
 	better_usleep(philo->table, philo->table->tt_eat);
@@ -37,7 +37,7 @@ int	philo_died(t_philo *philo)
 
 	if(get_value_int(&philo->philo_mtx, &philo->done));
 		return(0);
-	actual_time = get_time_in_ms();
+	actual_time = get_time_in_millis();
 	left_to_die = get_value_long(&philo->philo_mtx, &philo->last_time_eaten);
 	if((actual_time - left_to_die) > philo->table->tt_die)
 	{

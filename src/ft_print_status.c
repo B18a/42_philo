@@ -7,7 +7,7 @@ void	print_status_funny(t_table *table,t_philo *philo, t_status code)
 {
 	long	time_gone;
 
-	time_gone = get_time_in_ms() - table->start_time;
+	time_gone = get_time_in_millis() - table->start_time;
 	mutex_handler(&philo->philo_mtx, LOCK);
 	if(code == EAT && !dining_finished(table))
 		printf(C"%lu"RST" Philo %i 🥘 is eating\n", time_gone, philo->id);
@@ -35,7 +35,7 @@ void	print_status(t_table *table,t_philo *philo, t_status code)
 	}
 	long	time_gone;
 
-	time_gone = get_time_in_ms() - table->start_time;
+	time_gone = get_time_in_millis() - table->start_time;
 	mutex_handler(&philo->philo_mtx, LOCK);
 	if(code == EAT && !dining_finished(table))
 		printf(C"%lu"RST" %i is eating\n", time_gone, philo->id);

@@ -2,7 +2,7 @@
 
 
 
-long	get_time_in_ms(void)
+long	get_time_in_millis(void)
 {
 	struct		timeval time;
 

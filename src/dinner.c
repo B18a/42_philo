@@ -31,7 +31,7 @@ void *dining(void *arg)
 }
 
 
-void *supervision(void *arg)
+void *butler_handling(void *arg)
 {
 	t_table	*table;
 	int			pos;
@@ -75,11 +75,10 @@ void	greeting_philos(t_table *table)
 			i++;
 		}
 		//butler
-		pthread_create(&table->butler, NULL, &supervision, &table);
+		pthread_create(&table->butler, NULL, &butler_handling, &table);
 
 		//get the time
-		table->start_time = get_time_in_ms();
-
+		table->start_time = get_time_in_millis();
 		//all philos are ready to eat
 		set_value_int(&table->all_philos_ready_to_eat_mtx, &table->all_philos_ready_to_eat, TRUE);
 

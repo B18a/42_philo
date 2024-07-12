@@ -140,8 +140,9 @@ int		get_value_int(pthread_mutex_t *mutex,int *dst);
 int		dining_finished(t_table *table);
 
 
-long	get_time_in_ms(void);
-void	better_usleep(t_table *table, long time_in_ms);
+long	get_time_in_millis(void);
+long	get_time_in_micros(void);
+void	better_usleep(t_table *table, long time_in_micros);
 
 
 void	philo_eat(t_philo *philo);
@@ -151,5 +152,6 @@ int		philo_died(t_philo *philo);
 
 void	print_status(t_table *table,t_philo *philo, t_status code);
 
+void	*butler_handling(void *arg);
 
 #endif
