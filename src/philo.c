@@ -9,7 +9,7 @@ void	get_forks(t_philo *philo, t_fork *forks)
 {
 	int nbr_of_philos;
 	
-	nbr_of_philos = philo->butler->nbr_of_philos;
+	nbr_of_philos = philo->table->nbr_of_philos;
 	if(philo->id % 2 == 0)
 	{
 		philo->fork_first = &forks[philo->id - 1];
@@ -25,94 +25,68 @@ void	get_forks(t_philo *philo, t_fork *forks)
 
 
 
-int	prep_philos(t_butler *butler)
+int	prep_philos(t_table *table)
 {
 	int	pos;
 
 	pos = 0;
-	while(pos < butler->nbr_of_philos)
+	while(pos < table->nbr_of_philos)
 	{
-		if(mutex_handler(&butler->philos[pos].philo_mtx, INIT))
+		if(mutex_handler(&table->philos[pos].philo_mtx, INIT))
 			return(1);
 //return Value?
-		butler->philos[pos].id = pos + 1 ;
-		butler->philos[pos].meals_eaten = 0;
-		butler->philos[pos].done = 0;
-		//butler->philos[pos].last_time_eaten = 0;
-		butler->philos[pos].butler = butler;
-		get_forks(&butler->philos[pos], butler->forks);
+		table->philos[pos].id = pos + 1 ;
+		table->philos[pos].meals_eaten = 0;
+		table->philos[pos].done = 0;
+		//table->philos[pos].last_time_eaten = 0;
+		table->philos[pos].table = table;
+		get_forks(&table->philos[pos], table->forks);
 		pos++;
 	}
 }
 
 
-int	prep_dinner(t_butler *butler)
+int	prep_dinner(t_table *table)
 {
 	int	i;
 
 	i = 0;
-	butler->end_of_dinner = FALSE;
-	if(mutex_handler(&butler->ready_mtx, INIT))
+	table->end_of_dinner = FALSE;
+	if(mutex_handler(&table->end_of_dinner_mtx, INIT))
 		return(1);
-	if(mutex_handler(&butler->ready_mtx, INIT))
+	if(mutex_handler(&table->all_philos_ready_to_eat_mtx, INIT))
 		return(1);
-	butler->philos = (t_philo*)malloc(sizeof(t_philo) * butler->nbr_of_philos);
-	if(!butler->philos)
+	table->philos = (t_philo*)malloc(sizeof(t_philo) * table->nbr_of_philos);
+	if(!table->philos)
 		return(0);
-	butler->forks = (t_fork*)malloc(sizeof(t_fork) * butler->nbr_of_philos);
-	if(!butler->forks)
+	table->forks = (t_fork*)malloc(sizeof(t_fork) * table->nbr_of_philos);
+	if(!table->forks)
 		return(0);
-	while(i < butler->nbr_of_philos)
+	while(i < table->nbr_of_philos)
 	{
-		if(mutex_handler(&butler->forks[i].fork_mtx, INIT))
+		if(mutex_handler(&table->forks[i].fork_mtx, INIT))
 		{
-			free_mem(butler);
+			free_mem(table);
 			return(1);
 		}
-		butler->forks[i].fork_id = i; //only for debugging
+		table->forks[i].fork_id = i; //only for debugging
 		i++;
 	}
-	prep_philos(butler);
+	prep_philos(table);
 	return(0);
 }
-
-/*
-	//butler->philos = malloc(sizeof(pthread_t) * butler->nbr_of_philos);
-	while(i < butler->nbr_of_philos)
-	{
-		if(pthread_create(&butler->philos[i], NULL, &routine, NULL) != 0)
-		{
-			printf("failed to create Philo[%i]\n",i);
-			return(0);
-		}
-		printf("Philo[%i] created\n",i);
-		i++;
-	}
-	
-	i = 0;
-	while(i < butler->nbr_of_philos)
-	{
-		pthread_join(butler->philos[i], NULL);
-		printf("Philo[%i] finished\n",i);
-		i++;
-	}
-	return(1);
-*/
-
-
-
 
 
 int main(int argc, char **argv)
 {
-	t_butler butler;
+	t_table table;
 
-	if(handle_input(argc, argv, &butler))
+	if(handle_input(argc, argv, &table))
 		return(0);
-	if(prep_dinner(&butler) == 1)
+	if(prep_dinner(&table) == 1)
 		return(0);
-	greeting_philos(&butler);
-	free_mem(&butler);
+	greeting_philos(&table);
+	free_mem(&table);
 	return(1);
 }
 

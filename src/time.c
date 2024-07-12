@@ -13,16 +13,16 @@ long	get_time_in_ms(void)
 
 
 
-void	better_usleep(t_butler *butler, long time_in_ms)
+void	better_usleep(t_table *table, long time_in_ms)
 {
 	struct	timeval current;
 	struct	timeval start_sleep;
 	long	time_gone;	
 
-	if(dining_finished(butler))	
+	if(dining_finished(table))	
 		return;
 	gettimeofday(&start_sleep, NULL);
-	if(butler->end_of_dinner)
+	if(table->end_of_dinner)
 		return;
 	while(1)
 	{

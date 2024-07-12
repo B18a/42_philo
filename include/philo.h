@@ -63,7 +63,7 @@ typedef enum	e_time
 
 
 
-typedef	struct s_butler t_butler;
+typedef	struct s_table t_table;
 typedef	struct s_fork t_fork;
 typedef	struct s_philo t_philo;
 
@@ -88,12 +88,12 @@ typedef struct	s_philo
 	int		done;
 	long	last_time_eaten;
 
-	t_butler	*butler;
+	t_table	*table;
 
 //	int	is_alive;
 }		t_philo;
 
-typedef struct	s_butler
+typedef struct	s_table
 {
 	int				nbr_of_philos;
 	long			tt_die;
@@ -102,23 +102,23 @@ typedef struct	s_butler
 	int				meals_to_eat;
 	long			start_time;
 	int				end_of_dinner;
+	pthread_mutex_t	end_of_dinner_mtx;
 	int				all_philos_ready_to_eat;
-	pthread_t		supervisor;
-	pthread_mutex_t	ready_mtx;
-	pthread_mutex_t	butler_mtx;
+	pthread_mutex_t	all_philos_ready_to_eat_mtx;
+	pthread_t		butler;
 	t_philo			*philos;
 	t_fork			*forks;
-}				t_butler;
+}				t_table;
 
 //ft_free
-void	free_mem(t_butler *butler);
+void	free_mem(t_table *table);
 
 //handle_input
 int		check_argument(char *str);
 int		check_input(int argc, char **argv);
-void	assign_values(int argc, char **argv, t_butler *butler);
-int		validate_values(int argc, char **argv, t_butler *butler);
-int		handle_input(int argc, char **argv, t_butler *butler);
+void	assign_values(int argc, char **argv, t_table *table);
+int		validate_values(int argc, char **argv, t_table *table);
+int		handle_input(int argc, char **argv, t_table *table);
 
 
 //libft
@@ -131,17 +131,17 @@ int		mutex_handler(pthread_mutex_t *mutex, t_mutex code);
 int		thread_handler(pthread_t *thread, void *(*foo)(void *), void *data, t_thread code);
 
 //dinner
-void	greeting_philos(t_butler *butler);
+void	greeting_philos(t_table *table);
 
 void	set_value_long(pthread_mutex_t *mutex,long *dst ,long value);
 long	get_value_long(pthread_mutex_t *mutex,long *dst);
 void	set_value_int(pthread_mutex_t *mutex,int *dst ,int value);
 int		get_value_int(pthread_mutex_t *mutex,int *dst);
-int		dining_finished(t_butler *butler);
+int		dining_finished(t_table *table);
 
 
 long	get_time_in_ms(void);
-void	better_usleep(t_butler *butler, long time_in_ms);
+void	better_usleep(t_table *table, long time_in_ms);
 
 
 void	philo_eat(t_philo *philo);
@@ -149,7 +149,7 @@ void	philo_sleep(t_philo *philo);
 void	philo_think(t_philo *philo);
 int		philo_died(t_philo *philo);
 
-void	print_status(t_butler *butler,t_philo *philo, t_status code);
+void	print_status(t_table *table,t_philo *philo, t_status code);
 
 
 #endif

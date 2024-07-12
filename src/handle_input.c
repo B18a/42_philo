@@ -32,50 +32,50 @@ int	check_input(int argc, char **argv)
 	return(0);
 }
 
-void	assign_values(int argc, char **argv, t_butler *butler)
+void	assign_values(int argc, char **argv, t_table *table)
 {
-	if(butler)
+	if(table)
 	{
-		butler->nbr_of_philos = ft_atoi(argv[1]);
-		butler->tt_die = ft_atoi(argv[2]) * 1000;
-		butler->tt_eat = ft_atoi(argv[3]) * 1000;
-		butler->tt_sleep = ft_atoi(argv[4]) * 1000;
+		table->nbr_of_philos = ft_atoi(argv[1]);
+		table->tt_die = ft_atoi(argv[2]) * 1000;
+		table->tt_eat = ft_atoi(argv[3]) * 1000;
+		table->tt_sleep = ft_atoi(argv[4]) * 1000;
 		if(argc == 6)
-			butler->meals_to_eat = ft_atoi(argv[5]);
+			table->meals_to_eat = ft_atoi(argv[5]);
 		else 
-			butler->meals_to_eat = -1;
-		butler->start_time = 0;
-		butler->end_of_dinner = FALSE;
-		butler->all_philos_ready_to_eat = FALSE;
-		butler->philos = NULL;
-		butler->forks= NULL;
+			table->meals_to_eat = -1;
+		table->start_time = 0;
+		table->end_of_dinner = FALSE;
+		table->all_philos_ready_to_eat = FALSE;
+		table->philos = NULL;
+		table->forks= NULL;
 	}
 }
 
-int	validate_values(int argc, char **argv, t_butler *butler)
+int	validate_values(int argc, char **argv, t_table *table)
 {
-	if(butler->nbr_of_philos < 0 || butler->nbr_of_philos > 200)
+	if(table->nbr_of_philos < 0 || table->nbr_of_philos > 200)
 		return(1);
-	if(butler->tt_die < 60 * 1000 || butler->tt_die > INT_MAX)
+	if(table->tt_die < 60 * 1000 || table->tt_die > INT_MAX)
 		return(1);
-	if(butler->tt_eat < 60 * 1000 || butler->tt_eat > INT_MAX)
+	if(table->tt_eat < 60 * 1000 || table->tt_eat > INT_MAX)
 		return(1);
-	if(butler->tt_sleep < 60 * 1000 || butler->tt_sleep > INT_MAX)
+	if(table->tt_sleep < 60 * 1000 || table->tt_sleep > INT_MAX)
 		return(1);
-	if(argc == 6 && butler->meals_to_eat <= 0)
+	if(argc == 6 && table->meals_to_eat <= 0)
 		return(1);
 	return(0);
 }
 
-int handle_input(int argc, char **argv, t_butler *butler)
+int handle_input(int argc, char **argv, t_table *table)
 {
 	if(check_input(argc, argv))
 	{
 		printf("Invalid Input\n");
 		return(1);
 	}
-	assign_values(argc, argv, butler);
-	if(validate_values(argc, argv, butler))
+	assign_values(argc, argv, table);
+	if(validate_values(argc, argv, table))
 	{
 		printf("Invalid Values\n");
 		return(1);
