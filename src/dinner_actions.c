@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dinner_actions.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/18 14:08:35 by ajehle            #+#    #+#             */
+/*   Updated: 2024/07/20 12:00:56 by ajehle           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/philo.h"
 
@@ -5,17 +16,16 @@ void	philo_eat(t_philo *philo)
 {
 	mutex_handler(&philo->fork_first->fork_mtx, LOCK);
 	print_status(philo->table, philo, TOOK_FIRST_FORK);
-	mutex_handler(&philo->fork_second->fork_mtx, LOCK);
+	mutex_handler(&philo->fork_sec->fork_mtx, LOCK);
 	print_status(philo->table, philo, TOOK_SEC_FORK);
-
-	set_value_long(&philo->philo_mtx, &philo->last_time_eaten, get_time_in_millis());
+	set_value_long(&philo->thread_mtx, get_time_in_millis(), &philo->last_time_eaten);
 	philo->meals_eaten++;
 	print_status(philo->table, philo, EAT);
 	better_usleep(philo->table, philo->table->tt_eat);
-	if(philo->table->meals_to_eat > 0 && philo->meals_eaten == philo->table->meals_to_eat)
-		set_value_int(&philo->philo_mtx, &philo->done, TRUE);
 	mutex_handler(&philo->fork_first->fork_mtx, UNLOCK);
-	mutex_handler(&philo->fork_second->fork_mtx, UNLOCK);
+	mutex_handler(&philo->fork_sec->fork_mtx, UNLOCK);
+	if(philo->table->meals_to_eat > 0 && philo->meals_eaten == philo->table->meals_to_eat)
+		set_value_int(&philo->thread_mtx, TRUE, &philo->done);
 }
 
 void	philo_sleep(t_philo *philo)
@@ -27,25 +37,27 @@ void	philo_sleep(t_philo *philo)
 void	philo_think(t_philo *philo)
 {
 	print_status(philo->table, philo, THINK);
+	usleep(50);
 }
-
 
 int	philo_died(t_philo *philo)
 {
-	long	actual_time;
-	long	last_meal_time;
 
-//Philo Full oder continue eating???
-//	if(get_value_int(&philo->philo_mtx, &philo->done));
-//		return(0);
-	actual_time = get_time_in_millis();
-	last_meal_time = get_value_long(&philo->philo_mtx, &philo->last_time_eaten);
-//	if(last_meal_time + philo->table->tt_die > actual_time)
-	if((get_time_in_millis() - get_value_long(&philo->philo_mtx, &philo->last_time_eaten)) > philo->table->tt_die)
+	long	timestamp_last_meal;
+	long	timestamp_current;
+	long	diff;
+
+	timestamp_last_meal = get_value_long(&philo->thread_mtx, &philo->last_time_eaten);
+	timestamp_current = get_time_in_millis();
+	diff = timestamp_current - timestamp_last_meal;
+
+	// printf("ID[%i] timestamp_last_meal	[%lu] timestamp_current [%lu] diff[%lu]\n",philo->thread_nbr,timestamp_last_meal, timestamp_current, diff);
+
+	if(diff > philo->table->tt_die / 1000)
 	{
 		print_status(philo->table, philo, DIED);
+
 		return(1);
 	}
-	printf("DID NOT DIE\n");
 	return(0);
 }

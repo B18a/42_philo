@@ -1,41 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_and_get.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/18 14:10:17 by ajehle            #+#    #+#             */
+/*   Updated: 2024/07/19 13:29:18 by ajehle           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
-
-void	set_value_long(pthread_mutex_t *mutex,long *dst ,long value)
+int	get_value_int(pthread_mutex_t *mutex, int *value)
 {
-	pthread_mutex_lock(mutex);
-	*dst = value;
-	pthread_mutex_unlock(mutex);
+	int	ret;
+	mutex_handler(mutex, LOCK);
+	ret = *value;
+	mutex_handler(mutex, UNLOCK);
+	return(ret);
 }
 
-long	get_value_long(pthread_mutex_t *mutex,long *dst)
+void	set_value_int(pthread_mutex_t *mutex, int value, int *dest)
 {
-	long	value;
-
-	value = 0;
-	pthread_mutex_lock(mutex);
-	value = *dst;
-	pthread_mutex_unlock(mutex);
-	return(value);
+	mutex_handler(mutex, LOCK);
+	*dest = value;
+	mutex_handler(mutex, UNLOCK);
 }
 
-
-void	set_value_int(pthread_mutex_t *mutex,int *dst ,int value)
+long	get_value_long(pthread_mutex_t *mutex, long *value)
 {
-	pthread_mutex_lock(mutex);
-	*dst = value;
-	pthread_mutex_unlock(mutex);
+	long	ret;
+	mutex_handler(mutex, LOCK);
+	ret = *value;
+	mutex_handler(mutex, UNLOCK);
+	return(ret);
 }
 
-int	get_value_int(pthread_mutex_t *mutex,int *dst)
+void	set_value_long(pthread_mutex_t *mutex, long value, long *dest)
 {
-	int	value;
-
-	value = 0;
-	pthread_mutex_lock(mutex);
-	value = *dst;
-	pthread_mutex_unlock(mutex);
-	return(value);
+	mutex_handler(mutex, LOCK);
+	*dest = value;
+	mutex_handler(mutex, UNLOCK);
 }
 
 int	dinner_finished(t_table *table)

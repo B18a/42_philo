@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   memory_management.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/18 09:05:12 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/19 10:35:46 by ajehle           ###   ########.fr       */
+/*   Created: 2024/07/18 10:53:07 by ajehle            #+#    #+#             */
+/*   Updated: 2024/07/18 11:48:58 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/philo.h"
 
-int	main(int argc, char *argv[])
+void free_allocs(t_table *table)
 {
-	t_table	table;
-
-	if(parsing_input(argc, argv, &table) == 1)
-		return(0);
-	if(prep_dinner(&table) == 1)
-		return(free_allocs(&table), 0);
-	greeting_philos(&table);
-	free_allocs(&table);
+	if(table->philos)
+		free(table->philos);
+	if(table->forks)
+		free(table->forks);
 }
