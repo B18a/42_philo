@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dinner_actions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:08:35 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/20 12:00:56 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/20 14:40:48 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	philo_sleep(t_philo *philo)
 void	philo_think(t_philo *philo)
 {
 	print_status(philo->table, philo, THINK);
-	usleep(50);
+	// usleep(1);
+	better_usleep(philo->table, 10);
 }
 
 int	philo_died(t_philo *philo)

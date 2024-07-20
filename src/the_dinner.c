@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   the_dinner.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:31:18 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/20 12:01:22 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/20 14:54:26 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,24 @@ void	*supervision(void* arg)
 	return(NULL);
 }
 
+void *single_philo(void *arg)
+{
+	t_philo	*philo;
 
+	philo = (t_philo*)arg;
+	increase_int(&philo->table->ready_counter_mtx, &philo->table->ready_counter);
+	set_value_long(&philo->thread_mtx, get_time_in_millis(), &philo->last_time_eaten);
+	wait_for_all(philo->table);
+	// if(philo->thread_nbr % 2 == 1) // needed for uneven nbr of philos otherwise one will die in the beginning
+	// 	usleep(100);
+	while (!dinner_finished(philo->table))
+	{
+		philo_eat(philo);
+		philo_sleep(philo);
+		philo_think(philo);
+	}
+	return(NULL);
+}
 
 void	greeting_philos(t_table *table)
 {
@@ -108,6 +125,14 @@ void	greeting_philos(t_table *table)
 	if(table->nbr_of_philos == 1)
 	{
 		// let the philo die ?!?!?!??!??!
+		thread_handler(&table->philos[0].thread, single_philo, (void*)&table->philos[0], CREATE);
+				
+		printf("Threat created\n");
+
+		// thread_handler(&table->philos[0].thread, NULL, NULL, JOIN);
+		// printf("Threat joined\n");
+
+
 	}
 	else
 	{
@@ -116,8 +141,8 @@ void	greeting_philos(t_table *table)
 			thread_handler(&table->philos[i].thread, dining, (void*)&table->philos[i], CREATE);
 			i++;
 		}
-		table->start_time = get_time_in_millis();
-		thread_handler(&table->thread, supervision, table, CREATE);
-		end_of_dinner(table);
 	}
+	table->start_time = get_time_in_millis();
+	thread_handler(&table->thread, supervision, table, CREATE);
+	end_of_dinner(table);
 }
