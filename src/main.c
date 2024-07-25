@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 09:05:12 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/19 10:35:46 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/25 15:47:23 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,4 @@ int	main(int argc, char *argv[])
 	if(prep_dinner(&table) == 1)
 		return(free_allocs(&table), 0);
 	greeting_philos(&table);
-	free_allocs(&table);
 }

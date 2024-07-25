@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 09:25:00 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/19 16:04:01 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/25 15:57:25 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,12 @@ void	assign_values(int argc, char **argv, t_table *table)
 		// table->tt_die = ft_atol(argv[2]);
 		// table->tt_eat = ft_atol(argv[3]);
 		// table->tt_sleep = ft_atol(argv[4]);
-		table->tt_die = ft_atol(argv[2]) * 1000;
-		table->tt_eat = ft_atol(argv[3]) * 1000;
-		table->tt_sleep = ft_atol(argv[4]) * 1000;
+		// table->tt_die = ft_atol(argv[2]) * 1000;
+		// table->tt_eat = ft_atol(argv[3]) * 1000;
+		// table->tt_sleep = ft_atol(argv[4]) * 1000;
+		table->tt_die = ft_atol(argv[2]);
+		table->tt_eat = ft_atol(argv[3]);
+		table->tt_sleep = ft_atol(argv[4]);
 		if(argc == 6)
 			table->meals_to_eat = ft_atoi(argv[5]);
 		else
@@ -61,7 +64,7 @@ void	assign_values(int argc, char **argv, t_table *table)
 		table->end_of_dinner = FALSE;
 		table->philos = NULL;
 		table->forks = NULL;
-		table->ready_counter = 0;
+		table->ready_flag = 0;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 09:05:19 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/20 11:35:16 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/25 17:50:58 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 # define PHILO_MIN 1
 # define PHILO_MAX 200
-# define TIME_MIN 60000
+# define TIME_MIN 60
 // # define TIME_MIN 60
 
 # define TRUE 1
@@ -57,10 +57,16 @@ typedef struct s_philo
 	int				thread_nbr;
 	int				done;
 	long			meals_eaten;
+	pthread_mutex_t	last_time_eaten_mtx;
 	long			last_time_eaten;
 	t_table			*table;
 	t_fork			*fork_first;
 	t_fork			*fork_sec;
+	long			nbr_of_philos;
+	long			tt_die;
+	long			tt_eat;
+	long			tt_sleep;
+	int				meals_to_eat;
 }					t_philo;
 
 typedef struct s_table
@@ -70,14 +76,18 @@ typedef struct s_table
 	long			tt_eat;
 	long			tt_sleep;
 	int				meals_to_eat;
+	pthread_mutex_t	status_mtx;
+	pthread_mutex_t	start_time_mtx;
 	long			start_time;
 	pthread_mutex_t	end_of_dinner_mtx;
 	int				end_of_dinner;
-	pthread_mutex_t	ready_counter_mtx;
-	int				ready_counter;
+	pthread_mutex_t	ready_flag_mtx;
+	int				ready_flag;
+	pthread_mutex_t	wait_counter_mtx;
+	long			wait_counter;
 	t_philo			*philos;
 	t_fork			*forks;
-	pthread_t		thread;
+	pthread_t		thread_butler;
 }					t_table;
 
 //[nbr_of_philos][tt_die][tt_eat][tt_sleep ][meals_to_eat]
@@ -145,13 +155,13 @@ int		dinner_finished(t_table *table);
 long	get_time_in_millis(void);
 long	get_time_in_micros(void);
 void	better_usleep(t_table *table, long tts_in_micros);
+void	other_usleep(long tts_in_micros);
 
 // free_mem
 void free_allocs(t_table *table);
 
 // status
 void	print_status(t_table *table,t_philo *philo, t_status code);
-void	increase_int(pthread_mutex_t *mtx, int	*number);
 
 // dinner actions
 void	philo_eat(t_philo *philo);
@@ -159,5 +169,21 @@ void	philo_sleep(t_philo *philo);
 void	philo_think(t_philo *philo);
 int		philo_died(t_philo *philo);
 
+// the dinner
+void	wait_for_all(t_table *table);
+void	supervisor_wait(t_table *table);
+int	all_philos_done(t_table *table);
+
+
+// routines
+void	*dining(void* arg);
+void	*supervision(void* arg);
+void	*single_philo(void *arg);
+
+// utils
+void	wait_for_all(t_table *table);
+void	supervisor_wait(t_table *table);
+int		all_philos_done(t_table *table);
+void	increase_long(pthread_mutex_t *mtx, long *number);
 
 #endif

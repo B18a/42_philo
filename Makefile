@@ -6,18 +6,18 @@
 #    By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/18 09:05:04 by ajehle            #+#    #+#              #
-#    Updated: 2024/07/19 14:44:43 by ajehle           ###   ########.fr        #
+#    Updated: 2024/07/25 15:52:58 by ajehle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= philo
-CC			= gcc -g
+CC			= gcc -g -pthread
 REMOVE		= rm -rf
 OBJ_DIR		= ./obj
 SRC_DIR		= src
 INC_DIR		= include
 CFLAGS		= -Wall -Werror -Wextra -I $(INC_DIR)
-THREADFLAG  = -pthread -fsanitize=thread
+THREADFLAG  = -fsanitize=thread
 
 # looking for files in subdirectories
 vpath %.c $(SRC_DIR)
@@ -35,6 +35,8 @@ FUNCTIONS	=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/set_and_get.c \
 				$(SRC_DIR)/time.c \
 				$(SRC_DIR)/status.c \
+				$(SRC_DIR)/routines.c \
+				$(SRC_DIR)/routine_utils.c \
 
 # INTERNAL OBJECT
 OBJECTS		= $(addprefix $(OBJ_DIR)/, $(notdir $(FUNCTIONS:.c=.o)))
@@ -50,7 +52,8 @@ $(OBJ_DIR):
 	mkdir $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS)  -c $< -o $@
+#	$(CC) $(CFLAGS) $(THREADFLAG) -c $< -o $@
 
 clean :
 	$(REMOVE) $(OBJECTS)
