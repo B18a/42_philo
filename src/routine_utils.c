@@ -6,7 +6,7 @@
 /*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:50:30 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/26 17:26:37 by andreasjehl      ###   ########.fr       */
+/*   Updated: 2024/07/26 17:31:34 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,14 @@
 
 void	wait_for_all(t_table *table)
 {
-	while (1)
-	{
-		if (get_value_int(&table->ready_flag_mtx, &table->ready_flag))
-			break ;
+	while (!get_value_int(&table->ready_flag_mtx, &table->ready_flag))
 		usleep(10);
-	}
 }
 
 void	supervisor_wait(t_table *table)
 {
-	while (1)
-	{
-		if (get_value_long(&table->wait_counter_mtx,
-				&table->wait_counter) == table->nbr_of_philos)
-			break ;
+	while (!(get_value_long(&table->wait_counter_mtx,&table->wait_counter) == table->nbr_of_philos))
 		usleep(10);
-	}
 }
 
 int	all_philos_done(t_table *table)
