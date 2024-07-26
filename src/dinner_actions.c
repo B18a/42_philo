@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dinner_actions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:08:35 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/25 20:31:44 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/26 08:53:07 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	philo_eat(t_philo *philo)
 
 	philo->meals_eaten++;
 	if(philo->meals_to_eat > 0 && philo->meals_eaten == philo->meals_to_eat)
-		set_value_int(&philo->thread_mtx, TRUE, &philo->done);
+		set_value_int(&philo->done_mtx, TRUE, &philo->done);
 	mutex_handler(&philo->fork_first->fork_mtx, UNLOCK);
 	mutex_handler(&philo->fork_sec->fork_mtx, UNLOCK);
 }
@@ -78,7 +78,6 @@ int	philo_died(t_philo *philo)
 	long	timestamp_current;
 	long	diff;
 
-	// timestamp_last_meal = get_value_long(&philo->thread_mtx, &philo->last_time_eaten);
 	timestamp_last_meal = get_value_long(&philo->last_time_eaten_mtx, &philo->last_time_eaten);
 	timestamp_current = get_time_in_millis();
 	diff = timestamp_current - timestamp_last_meal;

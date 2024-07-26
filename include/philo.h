@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 09:05:19 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/25 17:50:58 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/26 08:53:16 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 # define PHILO_MIN 1
 # define PHILO_MAX 200
-# define TIME_MIN 60
+# define TIME_MIN 60000
 // # define TIME_MIN 60
 
 # define TRUE 1
@@ -53,8 +53,8 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	pthread_t		thread;
-	pthread_mutex_t	thread_mtx;
 	int				thread_nbr;
+	pthread_mutex_t	done_mtx;
 	int				done;
 	long			meals_eaten;
 	pthread_mutex_t	last_time_eaten_mtx;

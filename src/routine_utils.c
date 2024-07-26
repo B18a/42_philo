@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:50:30 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/25 17:51:55 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/26 08:53:07 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	all_philos_done(t_table *table)
 
 	while(i< table->nbr_of_philos && !dinner_finished(table))
 	{
-		if(get_value_int(&table->philos[i].thread_mtx, &table->philos[i].done))
+		if(get_value_int(&table->philos[i].done_mtx, &table->philos[i].done))
 			done++;
 		if(done == table->nbr_of_philos)
 			return(1);

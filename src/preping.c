@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   preping.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 10:38:58 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/25 15:59:29 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/26 10:39:40 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	prep_philos(t_table *table)
 	pos = 0;
 	while(pos < table->nbr_of_philos)
 	{
-		if(mutex_handler(&table->philos[pos].thread_mtx, INIT))
+		if(mutex_handler(&table->philos[pos].done_mtx, INIT))
 			return(1);
 		if(mutex_handler(&table->philos[pos].last_time_eaten_mtx, INIT))
 			return(1);
@@ -55,9 +55,6 @@ int	prep_philos(t_table *table)
 		table->philos[pos].tt_sleep = table->tt_sleep;
 		table->philos[pos].meals_to_eat = table->meals_to_eat;
 		assign_forks(&table->philos[pos], table->forks);
-		// printf("tt_die %lu\n", table->philos[pos].tt_die);
-		// printf("tt_eat %lu\n", table->philos[pos].tt_eat);
-		// printf("tt_sleep %lu\n", table->philos[pos].tt_sleep);
 		pos++;
 	}
 	return(0);
@@ -88,7 +85,7 @@ int		prep_dinner(t_table *table)
 	{
 		if(mutex_handler(&table->forks[i].fork_mtx, INIT))
 			return(1);
-		table->forks[i].fork_nbr = i;	//only for debug
+		table->forks[i].fork_nbr = i;
 		i++;
 	}
 	table->wait_counter = FALSE;

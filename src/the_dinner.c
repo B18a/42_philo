@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   the_dinner.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:31:18 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/25 20:13:31 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/26 09:00:44 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	end_of_dinner(t_table *table)
 	while(i < table->nbr_of_philos)
 	{
 		thread_handler(&table->philos[i].thread, NULL, NULL, JOIN);
-		mutex_handler(&table->philos[i].thread_mtx, DESTROY);
+		mutex_handler(&table->philos[i].done_mtx, DESTROY);
 		mutex_handler(&table->forks[i].fork_mtx, DESTROY);
 		i++;
 	}
@@ -65,7 +65,7 @@ void	greeting_philos(t_table *table)
 		{
 			thread_handler(&table->philos[i].thread, dining, (void*)&table->philos[i], CREATE);
 			i++;
-			usleep(10);
+			usleep(500);
 		}
 	}
 	thread_handler(&table->thread_butler, supervision, table, CREATE);

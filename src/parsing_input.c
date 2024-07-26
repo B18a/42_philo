@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 09:25:00 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/25 15:57:25 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/26 08:38:16 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,12 @@ void	assign_values(int argc, char **argv, t_table *table)
 	if(table)
 	{
 		table->nbr_of_philos = ft_atoi(argv[1]);
+		table->tt_die = ft_atol(argv[2]) * 1000;
+		table->tt_eat = ft_atol(argv[3]) * 1000;
+		table->tt_sleep = ft_atol(argv[4]) * 1000;
 		// table->tt_die = ft_atol(argv[2]);
 		// table->tt_eat = ft_atol(argv[3]);
 		// table->tt_sleep = ft_atol(argv[4]);
-		// table->tt_die = ft_atol(argv[2]) * 1000;
-		// table->tt_eat = ft_atol(argv[3]) * 1000;
-		// table->tt_sleep = ft_atol(argv[4]) * 1000;
-		table->tt_die = ft_atol(argv[2]);
-		table->tt_eat = ft_atol(argv[3]);
-		table->tt_sleep = ft_atol(argv[4]);
 		if(argc == 6)
 			table->meals_to_eat = ft_atoi(argv[5]);
 		else

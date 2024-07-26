@@ -3,7 +3,7 @@
 // 	long	time_gone;
 
 // 	time_gone = get_time_in_millis() - table->start_time;
-// 	mutex_handler(&philo->thread_mtx, LOCK);
+// 	mutex_handler(&philo->done_mtx, LOCK);
 // 	if(code == EAT && !dinner_finished(table))
 // 	{
 // 		if(DEBUG)
@@ -42,5 +42,5 @@
 // 			printf("%lu	%i has taken a fork\n", time_gone, philo->thread_nbr);
 // 			// printf(YEL"%lu	"RST YEL" %i has taken a fork\n" RST, time_gone, philo->thread_nbr);
 // 	}
-// 	mutex_handler(&philo->thread_mtx, UNLOCK);
+// 	mutex_handler(&philo->done_mtx, UNLOCK);
 // }

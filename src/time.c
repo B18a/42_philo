@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:17:06 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/25 20:23:19 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/26 08:41:49 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ void	better_usleep(t_table *table, long tts_in_micros)
 	long	time_left;
 
 	start = get_time_in_micros();
-	if (start == -1)
-		return;
-	else
-	{
+	// if (start == -1)
+	// 	return;
+	// else
+	// {
 		while (get_time_in_micros() - start < tts_in_micros)
 		{
 			if (dinner_finished(table))
@@ -67,7 +67,7 @@ void	better_usleep(t_table *table, long tts_in_micros)
 					;
 		}
 		return;
-	}
+	// }
 }
 // void	better_usleep(t_table *table, long tts_in_micros)
 // {
