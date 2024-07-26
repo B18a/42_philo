@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   the_dinner.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:31:18 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/26 13:59:05 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/26 17:28:14 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	greeting_philos(t_table *table)
 	i = 0;
 	if (table->nbr_of_philos == 1)
 	{
+		set_time(table);
 		thread_handler(&table->philos[0].thread, single_philo,
 			(void *)&table->philos[0], CREATE);
 	}
