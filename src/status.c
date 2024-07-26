@@ -6,42 +6,34 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 17:48:06 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/25 19:10:12 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/26 12:37:04 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void	print_status(t_table *table,t_philo *philo, t_status code)
+void	print_status(t_table *table, t_philo *philo, t_status code)
 {
 	long	time_gone;
-	// long	start;
-	// long	current;
 
-	// current = get_time_in_millis();
-	// start = get_value_long(&philo->table->start_time_mtx, &philo->table->start_time);
-	// time_gone = current - start;
-
-	// printf("%lu\n%lu\n%lu\n",current, start, time_gone);
-
-	// time_gone = get_time_in_millis() - get_value_long(&philo->last_time_eaten_mtx, &philo->last_time_eaten);
 	mutex_handler(&philo->table->status_mtx, LOCK);
-	if(!dinner_finished(table))
+	if (!dinner_finished(table))
 	{
-		time_gone = get_time_in_millis() - get_value_long(&philo->table->start_time_mtx, &philo->table->start_time);
-		if(code == EAT && !dinner_finished(table))
+		time_gone = get_time_in_millis()
+			- get_value_long(&philo->table->start_time_mtx,
+				&philo->table->start_time);
+		if (code == EAT && !dinner_finished(table))
 			printf("%lu	%i is eating\n", time_gone, philo->thread_nbr);
-		else if(code == SLEEP && !dinner_finished(table))
+		else if (code == SLEEP && !dinner_finished(table))
 			printf("%lu	%i is sleeping\n", time_gone, philo->thread_nbr);
-		else if(code == THINK && !dinner_finished(table))
+		else if (code == THINK && !dinner_finished(table))
 			printf("%lu	%i is thinking\n", time_gone, philo->thread_nbr);
-		else if(code == DIED && !dinner_finished(table))
+		else if (code == DIED && !dinner_finished(table))
 			printf("%lu	%i died\n", time_gone, philo->thread_nbr);
-		else if(code == TOOK_FIRST_FORK  && !dinner_finished(table))
-			printf("%lu	%i has taken a fork\n" , time_gone, philo->thread_nbr);
-		else if(code == TOOK_SEC_FORK && !dinner_finished(table))
+		else if (code == TOOK_FIRST_FORK && !dinner_finished(table))
+			printf("%lu	%i has taken a fork\n", time_gone, philo->thread_nbr);
+		else if (code == TOOK_SEC_FORK && !dinner_finished(table))
 			printf("%lu	%i has taken a fork\n", time_gone, philo->thread_nbr);
 	}
 	mutex_handler(&philo->table->status_mtx, UNLOCK);
 }
-

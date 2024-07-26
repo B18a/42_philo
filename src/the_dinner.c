@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   the_dinner.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:31:18 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/26 09:00:44 by andreasjehl      ###   ########.fr       */
+/*   Updated: 2024/07/26 13:59:05 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	end_of_dinner(t_table *table)
 	int	i;
 
 	i = 0;
-	while(i < table->nbr_of_philos)
+	while (i < table->nbr_of_philos)
 	{
 		thread_handler(&table->philos[i].thread, NULL, NULL, JOIN);
 		mutex_handler(&table->philos[i].done_mtx, DESTROY);
@@ -31,12 +31,11 @@ void	end_of_dinner(t_table *table)
 	mutex_handler(&table->wait_counter_mtx, DESTROY);
 	mutex_handler(&table->start_time_mtx, DESTROY);
 	free_allocs(table);
-
 }
 
 void	set_time(t_table *table)
 {
-	int	i;
+	int		i;
 	long	time;
 
 	i = 0;
@@ -44,10 +43,10 @@ void	set_time(t_table *table)
 	set_value_long(&table->start_time_mtx, time, &table->start_time);
 	while (i < table->nbr_of_philos)
 	{
-		set_value_long(&table->philos[i].last_time_eaten_mtx, time, &table->philos[i].last_time_eaten);
+		set_value_long(&table->philos[i].last_time_eaten_mtx, time,
+			&table->philos[i].last_time_eaten);
 		i++;
 	}
-
 }
 
 void	greeting_philos(t_table *table)
@@ -55,21 +54,22 @@ void	greeting_philos(t_table *table)
 	int	i;
 
 	i = 0;
-	if(table->nbr_of_philos == 1)
+	if (table->nbr_of_philos == 1)
 	{
-		thread_handler(&table->philos[0].thread, single_philo, (void*)&table->philos[0], CREATE);
+		thread_handler(&table->philos[0].thread, single_philo,
+			(void *)&table->philos[0], CREATE);
 	}
 	else
 	{
-		while(i < table->nbr_of_philos)
+		while (i < table->nbr_of_philos)
 		{
-			thread_handler(&table->philos[i].thread, dining, (void*)&table->philos[i], CREATE);
+			set_time(table);
+			thread_handler(&table->philos[i].thread, dining,
+				(void *)&table->philos[i], CREATE);
 			i++;
-			usleep(500);
+			usleep(60);
 		}
 	}
 	thread_handler(&table->thread_butler, supervision, table, CREATE);
-	set_time(table);
 	set_value_int(&table->ready_flag_mtx, TRUE, &table->ready_flag);
-	end_of_dinner(table);
 }

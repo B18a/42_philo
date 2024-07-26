@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:10:17 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/19 13:29:18 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/26 12:36:53 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 int	get_value_int(pthread_mutex_t *mutex, int *value)
 {
 	int	ret;
+
 	mutex_handler(mutex, LOCK);
 	ret = *value;
 	mutex_handler(mutex, UNLOCK);
-	return(ret);
+	return (ret);
 }
 
 void	set_value_int(pthread_mutex_t *mutex, int value, int *dest)
@@ -31,10 +32,11 @@ void	set_value_int(pthread_mutex_t *mutex, int value, int *dest)
 long	get_value_long(pthread_mutex_t *mutex, long *value)
 {
 	long	ret;
+
 	mutex_handler(mutex, LOCK);
 	ret = *value;
 	mutex_handler(mutex, UNLOCK);
-	return(ret);
+	return (ret);
 }
 
 void	set_value_long(pthread_mutex_t *mutex, long value, long *dest)
@@ -46,5 +48,5 @@ void	set_value_long(pthread_mutex_t *mutex, long value, long *dest)
 
 int	dinner_finished(t_table *table)
 {
-	return(get_value_int(&table->end_of_dinner_mtx, &table->end_of_dinner));
+	return (get_value_int(&table->end_of_dinner_mtx, &table->end_of_dinner));
 }
