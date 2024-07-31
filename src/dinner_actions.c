@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:08:35 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/26 14:45:58 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/31 11:27:05 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	philo_died(t_philo *philo)
 	diff = timestamp_current - timestamp_last_meal;
 	if (diff > (philo->tt_die / 1000))
 	{
-		print_status(philo->table, philo, DIED);
+		// print_status(philo->table, philo, DIED);
 		return (1);
 	}
 	return (0);

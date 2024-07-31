@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:48:00 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/26 14:54:33 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/31 11:28:44 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,12 @@ void	*supervision(void *arg)
 		while (i < table->nbr_of_philos && !dinner_finished(table))
 		{
 			if (philo_died(&table->philos[i]))
+			{
 				set_value_int(&table->end_of_dinner_mtx, TRUE,
 					&table->end_of_dinner);
+				print_status(table, &table->philos[i], DIED);
+
+			}
 			i++;
 		}
 		if (all_philos_done(table))

@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 09:05:19 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/26 12:37:53 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/07/31 09:48:45 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ typedef struct s_table
 	pthread_t			thread_butler;
 }						t_table;
 
-//[nbr_of_philos][tt_die][tt_eat][tt_sleep ][meals_to_eat]
-
 typedef enum s_mutex
 {
 	INIT,
@@ -125,7 +123,6 @@ int						check_number(char *str);
 
 // libft functions
 int						ft_isdigit(int c);
-// check!!!!!!!!!
 int						ft_atol(const char *str);
 int						ft_atoi(const char *str);
 

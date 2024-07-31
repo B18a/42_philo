@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:50:30 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/26 17:31:34 by andreasjehl      ###   ########.fr       */
+/*   Updated: 2024/07/31 09:23:44 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	wait_for_all(t_table *table)
 
 void	supervisor_wait(t_table *table)
 {
-	while (!(get_value_long(&table->wait_counter_mtx,&table->wait_counter) == table->nbr_of_philos))
+	while (!(get_value_long(&table->wait_counter_mtx,
+				&table->wait_counter) == table->nbr_of_philos))
 		usleep(10);
 }
 
