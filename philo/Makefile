@@ -6,7 +6,7 @@
 #    By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/18 09:05:04 by ajehle            #+#    #+#              #
-#    Updated: 2024/07/31 11:49:44 by ajehle           ###   ########.fr        #
+#    Updated: 2024/08/07 13:25:37 by ajehle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ OBJ_DIR		= ./obj
 SRC_DIR		= src
 INC_DIR		= include
 CFLAGS		= -Wall -Werror -Wextra -I $(INC_DIR)
-
 
 # INTERNAL FUNCTIONS
 FUNCTIONS	=	$(SRC_DIR)/main.c \
@@ -41,14 +40,14 @@ all : $(NAME)
 
 # INTERNAL RULE
 $(NAME) : $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) $(THREADFLAG) -o $(NAME)
+	$(CC) $(FAST) $(CFLAGS) $(OBJECTS) -o $(NAME)
 
 # DIRECTORY
 $(OBJ_DIR):
 	mkdir $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(THREADFLAG) -c $< -o $@
 
 clean :
 	$(REMOVE) $(OBJECTS)

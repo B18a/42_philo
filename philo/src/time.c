@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:17:06 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/31 09:20:33 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/08/07 11:08:56 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	better_usleep(t_table *table, long tts_in_micros)
 		while (get_time_in_micros() - start < tts_in_micros)
 		{
 			if (dinner_finished(table))
-				break ;
+				return ;
 			time_gone = get_time_in_micros() - start;
 			time_left = tts_in_micros - time_gone;
 			if (time_left > 1000)

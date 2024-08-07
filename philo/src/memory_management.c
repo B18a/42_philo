@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 10:53:07 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/26 12:31:47 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/08/07 09:55:34 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 void	free_allocs(t_table *table)
 {
 	if (table->philos)
+	{
 		free(table->philos);
+		table->philos = NULL;
+	}
 	if (table->forks)
+	{
 		free(table->forks);
+		table->forks = NULL;
+	}
 }

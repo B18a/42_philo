@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:31:18 by ajehle            #+#    #+#             */
-/*   Updated: 2024/07/31 09:21:04 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/08/07 11:34:26 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,16 @@ void	end_of_dinner(t_table *table)
 	while (i < table->nbr_of_philos)
 	{
 		thread_handler(&table->philos[i].thread, NULL, NULL, JOIN);
+		i++;
+	}
+	thread_handler(&table->thread_butler, NULL, NULL, JOIN);
+	i = 0;
+	while (i < table->nbr_of_philos)
+	{
 		mutex_handler(&table->philos[i].done_mtx, DESTROY);
 		mutex_handler(&table->forks[i].fork_mtx, DESTROY);
 		i++;
 	}
-	set_value_int(&table->end_of_dinner_mtx, TRUE, &table->end_of_dinner);
-	thread_handler(&table->thread_butler, NULL, NULL, JOIN);
 	mutex_handler(&table->end_of_dinner_mtx, DESTROY);
 	mutex_handler(&table->ready_flag_mtx, DESTROY);
 	mutex_handler(&table->wait_counter_mtx, DESTROY);
